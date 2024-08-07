@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: VertexLitEmissive
-  m_Shader: {fileID: 4800000, guid: 6c6686ebfd6ccf14e856951ac79f571c, type: 3}
+  m_Name: BlinnPhong
+  m_Shader: {fileID: 4800000, guid: 8fa4e6696d68966439810652f52ab0f1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -65,7 +65,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EmissionIntensity: 7.96
+    - _Gloss: 20
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -80,7 +80,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Emission: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.1509434, g: 0.022071911, b: 0.022071911, a: 1}
-    - _LightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Diffuse: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Specular: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

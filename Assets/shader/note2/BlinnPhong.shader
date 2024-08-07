@@ -1,6 +1,6 @@
-Shader "Note2/PixelLitSpecular"
+Shader "Note2/BlinnPhong"
 {
-   Properties {
+    Properties {
 		_Diffuse ("Diffuse", Color) = (1, 1, 1, 1)
 		_Specular ("Specular", Color) = (1, 1, 1, 1)
 		_Gloss ("Gloss", Range(8.0, 256)) = 20
@@ -13,7 +13,7 @@ Shader "Note2/PixelLitSpecular"
 			
 			#pragma vertex vert
 			#pragma fragment frag
-
+			
 			#include "Lighting.cginc"
 			
 			fixed4 _Diffuse;
@@ -38,6 +38,7 @@ Shader "Note2/PixelLitSpecular"
 				
 				// Transform the normal from object space to world space
 				o.worldNormal = mul(v.normal, (float3x3)unity_WorldToObject);
+				
 				// Transform the vertex from object spacet to world space
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				
@@ -50,16 +51,17 @@ Shader "Note2/PixelLitSpecular"
 				
 				fixed3 worldNormal = normalize(i.worldNormal);
 				fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
-				
+				// 动态光源使用
+				// fixed3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
 				// Compute diffuse term
-				fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * saturate(dot(worldNormal, worldLightDir));
+				fixed3 diffuse = _LightColor0.rgb * _Diffuse.rgb * max(0, dot(worldNormal, worldLightDir));
 				
-				// Get the reflect direction in world space
-				fixed3 reflectDir = normalize(reflect(-worldLightDir, worldNormal));
 				// Get the view direction in world space
 				fixed3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos.xyz);
+				// Get the half direction in world space
+				fixed3 halfDir = normalize(worldLightDir + viewDir);
 				// Compute specular term
-				fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(saturate(dot(reflectDir, viewDir)), _Gloss);
+				fixed3 specular = _LightColor0.rgb * _Specular.rgb * pow(max(0, dot(worldNormal, halfDir)), _Gloss);
 				
 				return fixed4(ambient + diffuse + specular, 1.0);
 			}

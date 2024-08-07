@@ -25,7 +25,7 @@ normal = normalize(i.normal);
  float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 ```
 
-### 计算光源与法线的夹角，dot为点积，即计算光源在法线的投影，并和0比较，因为小于0是没有意义的
+### 计算光源与法线的夹角，dot为点积，即计算两个向量的cos，并和0比较，因为小于0是没有意义的
 
 ```shader
 float NdotL = max(0, dot(lightDir, normal));
@@ -53,6 +53,12 @@ o.color = emission + diffuse;
 
 详见 assets/material/note2
 
+### 逻辑同自发光，由自发光部分的代码改为高光
+
+```shader
+   float spec = pow(max(0, dot(i.normal, halfDir)), _Shininess * 128);
+```
+
 ## ambient 自然光
 
 详见 assets/material/note2
@@ -60,6 +66,8 @@ o.color = emission + diffuse;
 ## diffuse 漫反射
 
 详见 assets/material/note2
+
+### 逻辑同自发光，去掉自发光部分
 
 ## 逐像素还是逐顶点
 
