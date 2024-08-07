@@ -14,7 +14,7 @@ Shader "Note2/PixelLitSpecular"
 
         Pass
         {
-            CGPROGRAM
+            CGPROGRAM 
             #pragma vertex vert
             #pragma fragment frag
 
@@ -47,21 +47,17 @@ Shader "Note2/PixelLitSpecular"
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
-                // 计算法线和视图方向
                 float3 normal = normalize(mul((float3x3)unity_WorldToObject, v.normal));
                 float3 viewDir = normalize(WorldSpaceViewDir(v.vertex));
                 float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 
-                // 漫反射光照计算
                 float diff = max(0, dot(normal, lightDir));
                 half3 diffuse = diff * _LightColor0.rgb;
 
-                // 镜面反射光照计算
-                float3 halfDir = normalize(lightDir + viewDir);
+                float3 halfDir = normalize(lightDir + viewDir); 
                 float spec = pow(max(0, dot(normal, halfDir)), _Shininess * 128);
                 half3 specular = spec * _SpecColor2.rgb;
 
-                // 将漫反射和镜面反射结果相加
                 half3 lighting = diffuse + specular;
                 lighting = lighting * _Color.rgb;
 

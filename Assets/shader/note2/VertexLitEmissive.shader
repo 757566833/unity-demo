@@ -2,43 +2,61 @@ Shader "Note2/VertexLitEmissive"
 {
     Properties
     {
-        _Color ("Glow Color", Color) = (1, 1, 1, 1)
+        _MainTex ("Base (RGB)", 2D) = "white" {}
+        _Emission ("Emission", Color) = (1,1,1,1)
     }
     SubShader
     {
-        Tags { "RenderType" = "Opaque" }
+        Tags { "RenderType"="Opaque" }
         Pass
         {
             CGPROGRAM
-            #pragma vertex vert
+            #pragma vertex vert 
             #pragma fragment frag
             #include "UnityCG.cginc"
+            #include "Lighting.cginc"
 
-            struct appdata_t
+            struct appdata
             {
                 float4 vertex : POSITION;
-                float4 color : COLOR;
+                float3 normal : NORMAL;
+                float2 uv : TEXCOORD0;
             };
 
             struct v2f
             {
-                float4 pos : POSITION;
-                float4 color : COLOR;
+                float4 pos : SV_POSITION;
+                float2 uv : TEXCOORD0;
+                float3 color : COLOR;
             };
 
-            float4 _Color;
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+            float4 _Emission;
 
-            v2f vert (appdata_t v)
+            v2f vert (appdata v)
             {
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
-                o.color = v.color * _Color; // Öğ¶¥µãµÄ×Ô·¢¹â
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+
+                // é€é¡¶ç‚¹å…‰ç…§è®¡ç®—
+                float3 normal = normalize(v.normal);
+                float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                float NdotL = max(0, dot(normal, lightDir));
+                float3 diffuse = NdotL * _LightColor0.rgb;
+
+                // è‡ªå‘å…‰è®¡ç®—
+                float3 emissive = _Emission.rgb;
+
+                o.color = diffuse + emissive;
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                return i.color; // Ê¹ÓÃÖğ¶¥µãÑÕÉ«×÷Îª×îÖÕµÄÑÕÉ«
+                fixed4 tex = tex2D(_MainTex, i.uv);
+                return tex * fixed4(i.color, 1.0);
             }
             ENDCG
         }

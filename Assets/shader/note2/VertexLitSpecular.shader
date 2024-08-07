@@ -49,7 +49,6 @@ Shader "Note2/VertexLitSpecular"
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
-                // 将法线和视图方向传递给片段着色器
                 o.normal = normalize(mul((float3x3)unity_WorldToObject, v.normal));
                 o.viewDir = normalize(WorldSpaceViewDir(v.vertex));
                 o.lightDir = normalize(_WorldSpaceLightPos0.xyz);
@@ -61,16 +60,12 @@ Shader "Note2/VertexLitSpecular"
             {
                 half4 texColor = tex2D(_MainTex, i.uv) * _Color;
 
-                // 漫反射光照计算
                 float diff = max(0, dot(i.normal, i.lightDir));
                 half3 diffuse = diff * _LightColor0.rgb;
 
-                // 镜面反射光照计算
                 float3 halfDir = normalize(i.lightDir + i.viewDir);
                 float spec = pow(max(0, dot(i.normal, halfDir)), _Shininess * 128);
                 half3 specular = spec * _SpecColor2.rgb;
-
-                // 将漫反射和镜面反射结果相加
                 half3 color = diffuse + specular;
                 color = color * texColor.rgb;
 

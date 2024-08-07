@@ -6,6 +6,49 @@
 
 详见 assets/material/note2
 
+### 获取当前材质的法线，并进行归一化
+
+```shader
+// 逐顶点渲染直接获取
+normalize(v.normal)
+// 逐像素渲染，需要在顶点渲染中转换法线
+// vert 函数中
+o.normal = mul((float3x3)unity_ObjectToWorld, v.normal);
+...
+// frag 函数中
+normal = normalize(i.normal);
+```
+
+### 获取世界空间下的光源 并归一化
+
+```shader
+ float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+```
+
+### 计算光源与法线的夹角，dot为点积，即计算光源在法线的投影，并和0比较，因为小于0是没有意义的
+
+```shader
+float NdotL = max(0, dot(lightDir, normal));
+```
+
+### 计算光照强度
+
+```shader
+ float3 diffuse = NdotL * _LightColor0.rgb;
+```
+
+### 计算光照颜色
+
+```shader
+float3 emissive = _Emission.rgb;
+```
+
+1. 最终颜色
+
+```shader
+o.color = emission + diffuse;
+```
+
 ## specular 高光反射
 
 详见 assets/material/note2

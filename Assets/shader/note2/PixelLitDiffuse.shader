@@ -44,8 +44,6 @@ Shader "Note2/PixelLitDiffuse"
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv * _MainTex_ST.xy + _MainTex_ST.zw;
-
-                // �����ߺ͹��շ��򴫵ݸ�Ƭ����ɫ��
                 o.normal = normalize(mul((float3x3)unity_WorldToObject, v.normal));
                 o.lightDir = normalize(_WorldSpaceLightPos0.xyz);
 
@@ -54,7 +52,6 @@ Shader "Note2/PixelLitDiffuse"
 
             half4 frag (v2f i) : SV_Target
             {
-                // ��Ƭ����ɫ���м������������
                 float3 normal = normalize(i.normal);
                 float3 lightDir = normalize(i.lightDir);
                 float diff = max(0, dot(normal, lightDir));
