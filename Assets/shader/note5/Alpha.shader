@@ -1,4 +1,4 @@
-Shader "Note5/Alpha"
+Shader "Note5/AlphaTest"
 {
     Properties
     {
