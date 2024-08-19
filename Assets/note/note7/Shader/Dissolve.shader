@@ -58,11 +58,11 @@ Shader "Note7/Dissolve"
                 // 比_Clip 小的直接删除
                 clip(dissolve.r-_Clip);
 
-                fixed4 ramp = tex2D(_RampTex,smoothstep(_Clip,_Clip+0.3,dissolve.r));
+                fixed4 ramp = tex2D(_RampTex,smoothstep(_Clip,_Clip+0.1,dissolve.r));
 
                 
                 fixed4 col = tex2D(_MainTex, main);
-                 col += ramp;
+                col += ramp;
                 return col;
             }
             ENDCG
