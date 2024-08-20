@@ -55,7 +55,7 @@ Shader "Note7/Dissolve"
                 float2 main =  i.uv.xy;
                 float2 dissolveUV =  i.uv.zw;
                 fixed4 dissolve = tex2D(_DissolveTex, dissolveUV);
-                // ±È_Clip Ð¡µÄÖ±½ÓÉ¾³ý
+                // ï¿½ï¿½_Clip Ð¡ï¿½ï¿½Ö±ï¿½ï¿½É¾ï¿½ï¿½
                 clip(dissolve.r-_Clip);
 
                 fixed4 ramp = tex2D(_RampTex,smoothstep(_Clip,_Clip+0.1,dissolve.r));

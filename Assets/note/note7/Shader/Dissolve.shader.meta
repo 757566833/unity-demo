@@ -4,8 +4,8 @@ ShaderImporter:
   externalObjects: {}
   defaultTextures:
   - _MainTex: {fileID: 2800000, guid: a31b07c2610754949ac060cad27f585b, type: 3}
-  - _DissolveTex: {fileID: 2800000, guid: d8861c90ad2c8384d99fb4df2c82b27a, type: 3}
-  - _RampTex: {fileID: 2800000, guid: 319c17d679030ad40afddc3cfde7bce4, type: 3}
+  - _DissolveTex: {fileID: 2800000, guid: a0112a0e6d8d09b4081482e0a119ddc0, type: 3}
+  - _RampTex: {fileID: 2800000, guid: a9e4c2e0139ef1d4494872b37c8806f5, type: 3}
   nonModifiableTextures: []
   userData: 
   assetBundleName: 
